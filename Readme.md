@@ -130,7 +130,7 @@ func TestSSE(t *testing.T) {
 
 Result:
 
-TODO: add video
+https://github.com/user-attachments/assets/131d4d4c-9033-4663-a753-8372784411ad
 
 ### Websocket
 
