@@ -3,6 +3,7 @@ package fakehttp
 import (
 	"io"
 	"net"
+	"sync"
 	"time"
 )
 
@@ -44,8 +45,9 @@ func NewFakeChannel(maxDataCount int) *FakeChannel {
 }
 
 type FakeChannel struct {
-	closeC chan struct{}
-	dataC  chan []byte
+	closeOnce sync.Once
+	closeC    chan struct{}
+	dataC     chan []byte
 }
 
 func (c *FakeChannel) Read(b []byte) (n int, err error) {
@@ -69,11 +71,7 @@ func (c *FakeChannel) Write(b []byte) (int, error) {
 }
 
 func (c *FakeChannel) Close() error {
-	select {
-	case <-c.closeC:
-	default:
-		close(c.closeC)
-	}
+	c.closeOnce.Do(func() { close(c.closeC) })
 	return nil
 }
 

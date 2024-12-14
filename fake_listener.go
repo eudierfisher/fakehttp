@@ -3,13 +3,15 @@ package fakehttp
 import (
 	"net"
 	"net/http"
+	"sync"
 )
 
 var _ net.Listener = (*FakeListener)(nil)
 
 type FakeListener struct {
-	connC  chan *FakeConn
-	closeC chan struct{}
+	connC     chan *FakeConn
+	closeOnce sync.Once
+	closeC    chan struct{}
 }
 
 func NewFakeListener(maxConnWaiting int) *FakeListener {
@@ -43,10 +45,6 @@ var fakeAddr net.Addr = &net.TCPAddr{IP: net.IPv4(127, 0, 0, 1), Port: 8080}
 func (l *FakeListener) Addr() net.Addr { return fakeAddr }
 
 func (l *FakeListener) Close() error {
-	select {
-	case <-l.closeC:
-	default:
-		close(l.closeC)
-	}
+	l.closeOnce.Do(func() { close(l.closeC) })
 	return nil
 }
