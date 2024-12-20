@@ -35,15 +35,15 @@ func TestHelloWorld(t *testing.T) {
 		server.Close()
 	}()
 
-	// init fake listener and HTTP client
-	fakeListener := fakehttp.NewFakeListener(4)
-	client := &http.Client{Transport: fakeListener.Transport()}
+	// init hub and HTTP client
+	hub := fakehttp.NewHub()
+	client := &http.Client{Transport: hub.Transport()}
 	// or just use
-	// client := fakeListener.Client()
+	// client := hub.HTTPClient()
 
 	go func() {
 		t.Log("Server is pretending to listen on 127.0.0.1:8080")
-		server.Serve(fakeListener)
+		server.Serve(hub.Listener())
 	}()
 
 	resp, err := client.Get("http://127.0.0.1:8080/hello")
@@ -97,15 +97,15 @@ func TestSSE(t *testing.T) {
 		server.Close()
 	}()
 
-	// init fake listener and HTTP client
-	fakeListener := fakehttp.NewFakeListener(4)
-	client := &http.Client{Transport: fakeListener.Transport()}
+	// init hub and HTTP client
+	hub := fakehttp.NewHub()
+	client := &http.Client{Transport: hub.Transport()}
 	// or just use
-	// client := fakeListener.Client()
+	// client := hub.HTTPClient()
 
 	go func() {
 		t.Log("Server is pretending to listen on 127.0.0.1:8080")
-		server.Serve(fakeListener)
+		server.Serve(hub.Listener())
 	}()
 
 	resp, err := client.Get("http://127.0.0.1:8080/httpsse")
