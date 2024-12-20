@@ -7,20 +7,17 @@ import (
 )
 
 type FakeTransport struct {
-	serverListener *FakeListener
+	Dial func(hostname, network string) (net.Conn, error)
 }
 
 func (t *FakeTransport) RoundTrip(req *http.Request) (*http.Response, error) {
-	clientConn, serverConn := NewFakeConnPair(4)
-	err := req.Write(clientConn)
+	clientConn, err := t.Dial("", "")
 	if err != nil {
 		return nil, err
 	}
-	select {
-	case t.serverListener.connC <- serverConn:
-	case <-t.serverListener.closeC:
-	default:
-		return nil, net.ErrClosed
+	err = req.Write(clientConn)
+	if err != nil {
+		return nil, err
 	}
 	return http.ReadResponse(bufio.NewReader(clientConn), req)
 }

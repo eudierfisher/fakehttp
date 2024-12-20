@@ -2,7 +2,6 @@ package fakehttp
 
 import (
 	"net"
-	"net/http"
 	"sync"
 )
 
@@ -19,14 +18,6 @@ func NewFakeListener(maxConnWaiting int) *FakeListener {
 		connC:  make(chan *FakeConn, maxConnWaiting),
 		closeC: make(chan struct{}),
 	}
-}
-
-func (l *FakeListener) Transport() http.RoundTripper {
-	return &FakeTransport{serverListener: l}
-}
-
-func (l *FakeListener) Client() *http.Client {
-	return &http.Client{Transport: l.Transport()}
 }
 
 func (l *FakeListener) Accept() (net.Conn, error) {

@@ -25,9 +25,9 @@ func (c *FakeConn) Close() error {
 	return nil
 }
 
-func (c *FakeConn) LocalAddr() net.Addr { return nil }
+func (c *FakeConn) LocalAddr() net.Addr { return fakeAddr }
 
-func (c *FakeConn) RemoteAddr() net.Addr { return nil }
+func (c *FakeConn) RemoteAddr() net.Addr { return fakeAddr }
 
 func (c *FakeConn) Read(b []byte) (int, error) { return c.ReadChannel.Read(b) }
 
