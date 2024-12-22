@@ -15,7 +15,7 @@ FakeHTTP is **NOT** a
 - No network
 - Using fully functional `http.Server` and `http.Client`
 - HTTP SSE support
-- Websocket support
+- Websocket support (WIP)
 
 ## Usage
 
@@ -134,4 +134,8 @@ https://github.com/user-attachments/assets/131d4d4c-9033-4663-a753-8372784411ad
 
 ### Websocket
 
-Websocket is also supported, but example code remains unfinished FTTB. We are working on it.
+Websocket is still under testing. Currently http server will be stuck in `abortPendingRead`.
+
+To make it work normally, `FakeConn` and `FakeChannel` should have full supports to `SetReadDeadline`. We are working on it.
+
+Suggestions and contributions will be greatly appreciated.

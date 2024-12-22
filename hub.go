@@ -15,14 +15,15 @@ type Hub struct {
 	transport *FakeTransport
 }
 
-func NewHub() *Hub { return &Hub{} }
+func NewHub() *Hub {
+	return &Hub{
+		listener: NewFakeListener(4),
+	}
+}
 
 func (hub *Hub) Listener() net.Listener {
 	hub.mu.Lock()
 	defer hub.mu.Unlock()
-	if hub.listener == nil {
-		hub.listener = NewFakeListener(4)
-	}
 	return hub.listener
 }
 
@@ -30,9 +31,6 @@ func (hub *Hub) Transport() http.RoundTripper {
 	hub.mu.Lock()
 	defer hub.mu.Unlock()
 	if hub.transport == nil {
-		if hub.listener == nil {
-			hub.listener = NewFakeListener(4)
-		}
 		hub.transport = &FakeTransport{Dial: hub.Dial}
 	}
 	return hub.transport
