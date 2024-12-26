@@ -15,7 +15,23 @@ FakeHTTP is **NOT** a
 - No network
 - Using fully functional `http.Server` and `http.Client`
 - HTTP SSE support
-- Websocket support (WIP)
+- Websocket support
+
+## Library Support
+
+HTTP SSE
+|library|version|status|
+|-|-|-|
+|[r3labs/sse](https://github.com/r3labs/sse)|v2.10.0|✔|
+
+Websocket
+|library|version|dial|client|handler|
+|-|-|-|-|-|
+|[gorilla/websocket](https://github.com/gorilla/websocket)|v1.5.3|✔|✔|✔|
+|[golang.org/net/websocket](https://github.com/golang/net)||testing||
+|[coder/websocket<br>nhooyr.io/websocket](https://github.com/nhooyr/websocket)||testing||
+
+See [fakehttp-thirdparty-test](https://github.com/eudierfisher/fakehttp-thirdparty-test) repo for more example tests.
 
 ## Usage
 
@@ -134,8 +150,4 @@ https://github.com/user-attachments/assets/131d4d4c-9033-4663-a753-8372784411ad
 
 ### Websocket
 
-Websocket is still under testing. Currently http server will be stuck in `abortPendingRead`.
-
-To make it work normally, `FakeConn` and `FakeChannel` should have full supports to `SetReadDeadline`. We are working on it.
-
-Suggestions and contributions will be greatly appreciated.
+See [fakehttp-thirdparty-test](https://github.com/eudierfisher/fakehttp-thirdparty-test) repo for websocket tests.
