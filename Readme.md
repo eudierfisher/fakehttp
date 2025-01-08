@@ -150,4 +150,6 @@ https://github.com/user-attachments/assets/131d4d4c-9033-4663-a753-8372784411ad
 
 ### Websocket
 
+https://github.com/user-attachments/assets/e095ba6d-812d-41e3-b760-6395eb09d455
+
 See [fakehttp-thirdparty-test](https://github.com/eudierfisher/fakehttp-thirdparty-test) repo for websocket tests.
